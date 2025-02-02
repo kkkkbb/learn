@@ -238,26 +238,61 @@ public class four {
         /*
         空心金字塔
          */
-        int num = 0;
-        System.out.println("请输入层数:");
-        num = myscanner.nextInt();
+//        int num = 0;
+//        System.out.println("请输入层数:");
+//        num = myscanner.nextInt();
+//        for(int i = 1 ; i <= num ; i++ ){
+//            for(int p = 1 ; p <= num-i; p++){
+//                System.out.print(" ");
+//            }
+//
+//                for(int j = 1 ; j <=  (i * 2) -1  ; j++){
+//                   if(j == 1 || j == (i * 2)-1)
+//                        System.out.print("*");
+//                   else
+//                        System.out.print(" ");
+//                }
+//
+//            System.out.println();
+//        }
+//
+
+
+
+        //空心菱形
+        int num2 = 0;
+        System.out.println("请输入层数(只能奇数层):");
+        num2 = myscanner.nextInt();
+        int num = (num2 +1) /2;
         for(int i = 1 ; i <= num ; i++ ){
-            for(int p = 1 ; p <= num-i; p++){
-                System.out.print(" ");
-            }
-            if(i % 2 != 0){
-                for(int j = 1 ; j <=  (i * 2) -1  ; j++){
-                   if(i == num)
-                        System.out.print("*");
-                   else{
-                       if(j == 1 || j == (i * 2)-1)
-                            System.out.print("*");
-                       else
-                            System.out.print(" ");
-                   }
+                for(int p = 1 ; p <= num-i; p++){
+                    System.out.print(" ");
                 }
-            }
+
+                for(int j = 1 ; j <=  (i * 2) -1  ; j++){
+                    if(j == 1 || j == (i * 2)-1 )
+                        System.out.print("*");
+                    else
+                        System.out.print(" ");
+                }
             System.out.println();
+                if(i == num){
+                        for(int a = num - 1 ; a >= 1 ; a-- ){
+                            for(int p = num-a ; p >= 1 ; p--){
+                                System.out.print(" ");
+                            }
+
+                            for(int j = (a * 2) -1  ; j >= 1   ; j--){
+                                if(j == 1 || j == (a * 2)-1 )
+                                    System.out.print("*");
+                                else
+                                    System.out.print(" ");
+                            }
+                            System.out.println();
+                    }
+                }
+
+            }
         }
-    }
 }
+
