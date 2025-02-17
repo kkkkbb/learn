@@ -67,7 +67,7 @@
         where id = #{id};
     </select>
 
-
+    <!---->
     <select id="selectBrandCondition" resultMap="brandResultMap">
 
         select * from tb_brand
