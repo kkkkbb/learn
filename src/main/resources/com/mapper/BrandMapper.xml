@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    namespace:名称空间
+-->
+
+
+<mapper namespace="com.example.BrandMapper">
+
+    <!--数据库表的字段名称和实体类的属性名称不一样，则不能自动封装数据-->
+
+    <!--id:唯一标识
+    type：映射的类型，智齿别名
+    -->
+    <resultMap id="brandResultMap" type="org.example.pojo.Brand">
+        <result column="brand_name" property="brandName"/>
+        <result column="company_name" property="companyName"/>
+    </resultMap>
+    <insert id="addBrand" useGeneratedKeys="true" keyProperty="id">/*返回主键id*/
+        insert into tb_brand (brand_name,company_name,ordered,description,status)
+        values (#{brandName},#{companyName},#{ordered},#{description},#{status});
+
+    </insert>
+    <update id="updateBrand">/*修改动态字段，可以只修改其中的一个值 其余值不变*/
+        update tb_brand
+        <set>
+            <if test="brandName != null and brandName != '' ">
+                brand_name = #{brandName},
+            </if>
+            <if test="companyName != null and companyName != '' ">
+                company_name = #{companyName},
+            </if>
+            <if test="ordered  != null  ">
+                ordered = #{ordered},
+            </if>
+            <if test="description != null and description != '' ">
+                description = #{description},
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id};
+
+    </update>
+    <delete id="deleteBrandById">
+        delete from tb_brand where id = #{id};
+    </delete>
+    <!--批量删除-->
+    <delete id="deletesBrandById">
+        delete from tb_brand where id in
+           (<foreach collection="ids" item="id" separator="," >
+               #{id}
+           </foreach> );
+    </delete>
+
+    <select id="selectBrand" resultMap="brandResultMap">
+        select *
+        from tb_brand;
+    </select>
+    <select id="getBrandById" resultMap="brandResultMap">
+        select *
+        from tb_brand
+        where id = #{id};
+    </select>
+
+
+    <select id="selectBrandCondition" resultMap="brandResultMap">
+
+        select * from tb_brand
+
+        <where>
+            <choose>
+                <when test="status != null">
+                    status = #{status}
+                </when>
+                <when test="companyName != null and companyName != ''">
+                    compony_name like #{companyName}
+                </when>
+                <when test="brandName != null and brandName != ''">
+                    brand_name like #{brandName}
+                </when>
+                <otherwise>
+                    1 = 1
+                </otherwise>
+            </choose>
+
+        </where>
+    </select>
+
+
+    <!--    <select id="selectBrandCondition" resultMap="brandResultMap">-->
+<!--        select *-->
+<!--        from tb_brand-->
+<!--        where status = #{status}-->
+<!--          and brand_name like #{brandName}-->
+<!--          and company_name like #{companyName};-->
+<!--    </select>-->
+
+
+<!--    <select id="selectBrandCondition" resultMap="brandResultMap">-->
+<!--        select *-->
+<!--        from tb_brand-->
+<!--        <where>-->
+<!--        1 = 1 /*加一个恒等式可以防止and出错       也可以用where标签来替换where表达式*/-->
+<!--            <if test="status != null">/*用if可以判断是否为空然后决定是否执行语句-->
+<!--                                        test中写逻辑表达式*/-->
+<!--               and status = #{status}-->
+<!--            </if>-->
+<!--        -->
+<!--            <if test="brandName != null and brandName != '' ">-->
+<!--                and brand_name like #{brandName}-->
+<!--            </if>-->
+<!--          <if test="companyName != null and companyName != ''">-->
+<!--              and company_name like #{companyName};-->
+<!--          </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+    <!--    <select id="selectById" resultType="user">-->
+    <!--        select *-->
+    <!--        from tb_user where id = #{id};-->
+    <!--    </select>-->
+
+
+</mapper>
